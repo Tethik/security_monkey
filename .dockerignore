@@ -6,3 +6,4 @@ boto.cfg
 supervisor
 config-default.py
 generate-docs.py
+postgres-data

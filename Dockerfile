@@ -40,7 +40,7 @@ RUN apt-get update && \
     pip install -r requirements.txt
     
 COPY . /usr/local/src/security_monkey
-RUN pip install ."[onelogin]" && \
+RUN pip install ."[onelogin]" && pip install ."[googleauth]" && \
     /bin/mkdir -p /var/log/security_monkey/ && \
     /usr/bin/touch /var/log/security_monkey/securitymonkey.log
 
