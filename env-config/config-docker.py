@@ -141,15 +141,23 @@ PING_USER_API_URL = ''  # Often something ending in idp/userinfo.openid
 PING_JWKS_URL = ''  # Often something ending in JWKS
 PING_SECRET = ''  # Provided by your administrator
 
+
+# General Google SSO Settings
+GOOGLE_AUTH_API_METHOD = 'People' # alternative 'Directory' to use Google SSO against Directory API
+GOOGLE_DEFAULT_ROLE = "View" # anonymous, View, Comment, Justify, and Admin are valid roles.
+GOOGLE_IS_MANAGING_ROLES = False
+GOOGLE_ADMIN_ROLE_GROUP_NAME = '' # Google group name which should map to security-monkey role Admin
+
+# People Auth Method Settings
 GOOGLE_CLIENT_ID = os.getenv('SECURITY_MONKEY_GOOGLE_CLIENT_ID', '')
 GOOGLE_AUTH_ENDPOINT = os.getenv('SECURITY_MONKEY_GOOGLE_AUTH_ENDPOINT', '')
 GOOGLE_SECRET = os.getenv('SECURITY_MONKEY_GOOGLE_SECRET', '')
 GOOGLE_HOSTED_DOMAIN = os.getenv('SECURITY_MONKEY_GOOGLE_HOSTED_DOMAIN', '') # Verify that token issued by comes from domain
+
+# Directory Auth Method Settings
 # Details about domain-wide-delegation https://developers.google.com/admin-sdk/directory/v1/guides/delegation
 GOOGLE_DOMAIN_WIDE_DELEGATION_KEY_PATH = os.getenv('SECURITY_MONKEY_GOOGLE_DOMAIN_WIDE_DELEGATION_KEY_PATH', '') # path to service account key with enabled domain wide delegation
 GOOGLE_DOMAIN_WIDE_DELEGATION_KEY_JSON = os.getenv('SECURITY_MONKEY_GOOGLE_DOMAIN_WIDE_DELEGATION_KEY_JSON', '') # json of service account key with enabled domain wide delegation
-GOOGLE_ADMIN_ROLE_GROUP_NAME = '' # Google group name which should map to security-monkey role Admin
-GOOGLE_AUTH_API_METHOD = 'People' # alternative 'Directory' to use Google SSO against Directory API
 GOOGLE_DOMAIN_WIDE_DELEGATION_SUBJECT = '' # perform google directory api calls as the this subject 
 
 OKTA_NAME = os.getenv('SECURITY_MONKEY_OKTA_NAME', 'Okta')   # Used to override the Okta name in the UI.

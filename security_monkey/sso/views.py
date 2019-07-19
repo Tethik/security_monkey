@@ -253,6 +253,7 @@ class Google(Resource):
         url = "https://www.googleapis.com/admin/directory/v1/groups?userKey=%s" % user_key
         headers = {'Authorization': 'Bearer {0}'.format(access_token)}
         r = requests.get(url, headers=headers)
+        r.raise_for_status()
         result = r.json()
         return [g['email'] for g in result.get('groups', [])]
 
@@ -347,8 +348,7 @@ class Google(Resource):
             
             group_emails = [o['email'] for o in groups.get('groups', [])]            
 
-        elif self._is_auth_method('people'):
-            current_app.logger.debug(token['access_token'])
+        elif self._is_auth_method('people'):            
             headers = {'Authorization': 'Bearer {0}'.format(token['access_token'])}
 
             r = requests.get(auth_method_api_url, headers=headers)
