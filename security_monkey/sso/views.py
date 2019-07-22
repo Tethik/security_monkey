@@ -231,6 +231,7 @@ class AzureAD(Resource):
 
 class Google(Resource):
     decorators = [rbac.allow(["anonymous"], ["GET", "POST"])]
+
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
         super(Google, self).__init__()
@@ -240,12 +241,12 @@ class Google(Resource):
                 creds = service_account.Credentials.from_service_account_file(
                     current_app.config.get("GOOGLE_DOMAIN_WIDE_DELEGATION_KEY_PATH"),
                     scopes=['https://www.googleapis.com/auth/admin.directory.group.readonly'])
-            except OSError:    
+            except IOError:    
                 creds = service_account.Credentials.from_service_account_info(
                     json.loads(current_app.config.get("GOOGLE_DOMAIN_WIDE_DELEGATION_KEY_JSON")),
                     scopes=['https://www.googleapis.com/auth/admin.directory.group.readonly'])
             self.credentials = creds.with_subject(current_app.config.get("GOOGLE_DOMAIN_WIDE_DELEGATION_SUBJECT"))
-
+        
     def _is_auth_method(self, method):
         return current_app.config.get("GOOGLE_AUTH_API_METHOD").lower() == method
 
@@ -598,7 +599,7 @@ class Providers(Resource):
                     'clientId': current_app.config.get("GOOGLE_CLIENT_ID"),
                     'url': api.url_for(Google, _external=True, _scheme='https'),
                     'redirectUri': api.url_for(Google, _external=True, _scheme='https'),
-                    'authorizationEndpoint': current_app.config.get("GOOGLE_AUTH_ENDPOINT"),
+                    'authorizationEndpoint': current_app.config.get("GOOGLE_AUTH_ENDPOINT", "https://accounts.google.com/o/oauth2/v2/auth"),
                     'scope': ['openid email https://www.googleapis.com/auth/admin.directory.group.readonly'],
                     'responseType': 'code'
                 }
